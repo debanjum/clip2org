@@ -86,6 +86,7 @@ clip2org-include-pdf-folder."
       (setq title (buffer-substring-no-properties
                    (line-beginning-position)
                    (line-end-position)))
+      (setq title (string-remove-suffix "" title))
       (when (re-search-forward "Highlight" end t 1)
         (setq is-highlight t))
       (beginning-of-line)
@@ -96,11 +97,11 @@ clip2org-include-pdf-folder."
         (setq page (match-string 1)))
       (when (re-search-forward "Location \\([0-9-]+\\)" end t 1)
         (setq loc (match-string 1)))
-      (when (re-search-forward "Added on \\(.*\\)\n" end t 1)
+      (when (re-search-forward "Added on \\(.*\\)\n" end t 1)
         (setq date (match-string 1)))
       ;; From the end of date to ==========
       (if (re-search-forward
-           "\n\\(.*?\\)\n==========" end t 1)
+           "\n\\(.*?\\)\n==========" end t 1)
           (setq content (match-string 1)))
       (when (equal title "==========")
         (error "Clip2org: failed in getting content or quoted text."))
