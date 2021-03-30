@@ -121,6 +121,7 @@ clip2org-include-pdf-folder."
         ;; Process each clipping
         (while (car note-list)
           (let* ((item (car note-list))
+                 (title (caar clist))
                  (is-highlight (nth 0 item))
                  (page (nth 1 item))
                  (loc (nth 2 item))
@@ -134,12 +135,20 @@ clip2org-include-pdf-folder."
               (when loc
                 (insert "Location " loc " "))
               (insert "\n"))
+
+            ;; Add to Properties Drawer
+            (org-set-property "BOOK" title)
+            (org-set-property "ID" (org-id-new))
+            (when page
+              (org-set-property "PAGE" page))
+            (when loc
+              (org-set-property "LOCATION" loc))
             (when clip2org-include-date
-              (insert ":PROPERTIES:\n")
-              (insert ":DATE: " date "\n")
-              (insert ":END:\n\n"))
+              (org-set-property "DATE" date))
+
+            ;; Add highlight to body of entry
             (when is-highlight
-                (insert content "\n"))
+                (insert "   " content "\n"))
               ;; Insert pdf link
               (if (and clip2org-include-pdf-links page)
                   (insert (concat "[[docview:" clip2org-include-pdf-folder
