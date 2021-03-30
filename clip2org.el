@@ -94,7 +94,7 @@ clip2org-include-pdf-folder."
       (beginning-of-line)
       (when (re-search-forward "Page \\([0-9-]+\\)" end t 1)
         (setq page (match-string 1)))
-      (when (re-search-forward "Loc. \\([0-9-]+\\)" end t 1)
+      (when (re-search-forward "Location \\([0-9-]+\\)" end t 1)
         (setq loc (match-string 1)))
       (when (re-search-forward "Added on \\(.*\\)\n" end t 1)
         (setq date (match-string 1)))
@@ -131,7 +131,7 @@ clip2org-include-pdf-folder."
               (when page
                 (insert "Page " page " "))
               (when loc
-                (insert "Loc. " loc " "))
+                (insert "Location " loc " "))
               (insert "\n"))
             (when clip2org-include-date
               (insert ":PROPERTIES:\n")
